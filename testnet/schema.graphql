@@ -1,16 +1,34 @@
+type Name @entity(immutable: false) {
+  id: String! # tokenId as decimal string
+  owner: Bytes! # address
+  name: String! # string
+  records: [Record!]! @derivedFrom(field:"tokenId")
+
+  createdBlockNumber: BigInt!
+  createdBlockTimestamp: BigInt!
+  createdTransactionHash: Bytes!
+
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
 type Record @entity(immutable: false) {
   id: String! # tokenId + '#' + label
-  tokenId: String! # decimal string
+
+  tokenId: Name! # decimal string
   label: String! # string
   content: String! # string
+
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
 
 type Controller @entity(immutable: false) {
-  id: Bytes! # address
+  id: String! # address
   enabled: Boolean!
+
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
@@ -19,27 +37,15 @@ type Controller @entity(immutable: false) {
 type Label @entity(immutable: false) {
   id: String!
   enabled: Boolean!
+
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
 
 type Proxy @entity(immutable: false) {
-  id: Bytes! # address
+  id: String! # address
   enabled: Boolean!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type Name @entity(immutable: false) {
-  id: String! # tokenId as decimal string
-  owner: Bytes! # address
-  name: String! # string
-
-  createdBlockNumber: BigInt!
-  createdBlockTimestamp: BigInt!
-  createdTransactionHash: Bytes!
 
   blockNumber: BigInt!
   blockTimestamp: BigInt!
