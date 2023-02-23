@@ -1,0 +1,38 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: DIDRegistry
+    network: matic
+    source:
+      address: "0x5dA568a00E2007Bb99eE808828253C1eE7d9Bcb1"
+      abi: DIDRegistry
+      startBlock: 39283031
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Record
+        - Controller
+        - Label
+        - Proxy
+        - Name
+      abis:
+        - name: DIDRegistry
+          file: ./abis/DIDRegistry.json
+      eventHandlers:
+        - event: Bind(indexed address,indexed uint256,string,string)
+          handler: handleBind
+        - event: Controller(indexed address,bool)
+          handler: handleController
+        - event: Label(string,bool)
+          handler: handleLabel
+        - event: Proxy(indexed address,bool)
+          handler: handleProxy
+        - event: Register(indexed address,indexed uint256,string)
+          handler: handleRegister
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/did-registry.ts
